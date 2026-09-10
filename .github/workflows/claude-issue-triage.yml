@@ -72,7 +72,9 @@ jobs:
 
             6. Publica un unico comentario con
                `gh issue comment ${{ github.event.issue.number }} --body "<contenido>"`
-               con esta estructura en Markdown:
+               con esta estructura, escrita en Markdown valido para GitHub
+               (GitHub Flavored Markdown), de forma que GitHub lo renderice
+               correctamente en el issue:
 
                - **Resumen**: que pide el issue, en una o dos frases.
                - **Clasificacion**: labels asignados y por que.
@@ -86,6 +88,15 @@ jobs:
             Escribe el comentario en espanol con ortografia correcta y todos sus acentos.
             Manten en su forma original los nombres de archivos, funciones, variables y
             comandos.
+
+            El comentario debe usar sintaxis Markdown que GitHub entienda y renderice:
+            encabezados con `##`/`###`, texto en **negrita**, listas con `-`, listas de
+            tareas con `- [ ]`, `codigo en linea` con comillas invertidas y bloques de
+            codigo delimitados por triple comilla invertida con su lenguaje
+            (```js, ```bash). Cita archivos y lineas como `game.js:120`. No uses HTML
+            crudo ni bloques de codigo para el texto normal, y no envuelvas todo el
+            comentario en un unico bloque de codigo: debe verse formateado en GitHub,
+            no como texto plano.
 
             Si el evento fue `edited`, empieza el comentario indicando que es un
             re-analisis tras una edicion del issue.
