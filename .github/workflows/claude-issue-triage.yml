@@ -1,0 +1,94 @@
+name: Claude Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  triage:
+    # Solo issues reales (no PRs), de autores humanos, y sin @claude
+    # (esos ya los atiende claude.yml y habria doble ejecucion).
+    if: |
+      !github.event.issue.pull_request &&
+      !endsWith(github.actor, '[bot]') &&
+      !contains(github.event.issue.body, '@claude') &&
+      !contains(github.event.issue.title, '@claude')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Triaje del issue con Claude
+        id: triage
+        uses: anthropics/claude-code-action@v1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: '--allowedTools "Bash(gh issue view:*),Bash(gh issue edit:*),Bash(gh issue comment:*),Bash(gh label list:*),Bash(gh label create:*),Read,Grep,Glob"'
+          prompt: |
+            Eres el sistema de triaje de issues del repositorio ${{ github.repository }},
+            un juego de Tetris en JavaScript vanilla (HTML5 Canvas, sin dependencias ni build).
+            Archivos principales: `game.js` (logica del juego), `index.html` (estructura),
+            `style.css` (estilos).
+
+            Debes analizar el issue #${{ github.event.issue.number }}, clasificarlo con
+            labels y publicar un diagnostico tecnico. Ese diagnostico se usara despues como
+            base para implementar la solucion, asi que debe ser concreto y accionable.
+
+            Evento que disparo este workflow: `${{ github.event.action }}`.
+
+            Sigue estos pasos en orden:
+
+            1. Lee el issue:
+               `gh issue view ${{ github.event.issue.number }} --json title,body,labels`
+
+            2. Lista los labels que ya existen en el repositorio: `gh label list`.
+               Reutiliza siempre los que encajen antes de crear uno nuevo. El repositorio
+               parte de estos: bug, enhancement, documentation, question, accessibility,
+               "good first issue", "help wanted", duplicate, invalid, wontfix.
+
+            3. Crea los labels que falten con:
+               `gh label create "<nombre>" --description "<descripcion>" --color <hex-sin-almohadilla>`
+               Usa los prefijos `priority:`, `area:` y `type:` para que el conjunto de labels
+               crezca ordenado (por ejemplo `priority:high`, `area:gameplay`, `area:render`,
+               `area:input`, `area:ui`). Nunca crees un label que duplique el significado de
+               uno existente con otro nombre. Si el comando falla porque el label ya existe,
+               continua sin error.
+
+            4. Asigna los labels apropiados:
+               `gh issue edit ${{ github.event.issue.number }} --add-label "label-a,label-b"`
+               Nunca quites labels que haya puesto una persona.
+
+            5. Explora el codigo del repositorio (`game.js`, `index.html`, `style.css`) para
+               fundamentar el diagnostico en funciones y lineas reales, no en suposiciones.
+
+            6. Publica un unico comentario con
+               `gh issue comment ${{ github.event.issue.number }} --body "<contenido>"`
+               con esta estructura en Markdown:
+
+               - **Resumen**: que pide el issue, en una o dos frases.
+               - **Clasificacion**: labels asignados y por que.
+               - **Analisis tecnico**: archivos y funciones implicadas, citadas como
+                 `game.js:120`.
+               - **Causa probable**: solo si es un bug.
+               - **Enfoque de solucion**: pasos concretos de implementacion.
+               - **Criterios de aceptacion**: lista verificable.
+               - **Complejidad estimada**: baja, media o alta.
+
+            Escribe el comentario en espanol con ortografia correcta y todos sus acentos.
+            Manten en su forma original los nombres de archivos, funciones, variables y
+            comandos.
+
+            Si el evento fue `edited`, empieza el comentario indicando que es un
+            re-analisis tras una edicion del issue.
+
+            No modifiques ningun archivo del repositorio y no abras pull requests: tu tarea
+            termina al asignar los labels y publicar el comentario.
