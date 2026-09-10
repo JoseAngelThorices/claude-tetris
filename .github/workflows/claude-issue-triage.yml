@@ -1,5 +1,5 @@
 name: Claude Issue Triage
-
+ 
 on:
   issues:
     types: [opened, edited]
