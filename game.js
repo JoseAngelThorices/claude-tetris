@@ -39,8 +39,46 @@ const overlay = document.getElementById('overlay');
 const overlayTitle = document.getElementById('overlay-title');
 const overlayScore = document.getElementById('overlay-score');
 const restartBtn = document.getElementById('restart-btn');
+const themeToggle = document.getElementById('theme-toggle');
 
 let board, current, next, score, lines, level, paused, gameOver, lastTime, dropAccum, dropInterval, animId;
+
+/* ---- Tema (claro / oscuro) ---- */
+const THEME_KEY = 'tetris-theme';
+const theme = { gridLine: '#22222e', blockHighlight: 'rgba(255,255,255,0.12)', ghostAlpha: 0.2 };
+
+function readTheme() {
+  const cs = getComputedStyle(document.documentElement);
+  const get = name => cs.getPropertyValue(name).trim();
+  theme.gridLine = get('--grid-line') || theme.gridLine;
+  theme.blockHighlight = get('--block-highlight') || theme.blockHighlight;
+  theme.ghostAlpha = parseFloat(get('--ghost-alpha')) || theme.ghostAlpha;
+}
+
+function storeTheme(name) {
+  try { localStorage.setItem(THEME_KEY, name); } catch (e) { /* almacenamiento no disponible */ }
+}
+
+function applyTheme(name) {
+  document.documentElement.dataset.theme = name;
+  themeToggle.checked = name === 'light';
+  readTheme();
+  // El bucle puede estar detenido (pausa o game over): redibujamos a mano.
+  if (current) { draw(); drawNext(); }
+}
+
+function initTheme() {
+  let saved = null;
+  try { saved = localStorage.getItem(THEME_KEY); } catch (e) { /* almacenamiento no disponible */ }
+  const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  applyTheme(saved || (prefersLight ? 'light' : 'dark'));
+}
+
+themeToggle.addEventListener('change', () => {
+  const name = themeToggle.checked ? 'light' : 'dark';
+  applyTheme(name);
+  storeTheme(name);
+});
 
 function createBoard() {
   return Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
@@ -163,13 +201,13 @@ function drawBlock(context, x, y, colorIndex, size, alpha) {
   context.fillStyle = color;
   context.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
   // highlight
-  context.fillStyle = 'rgba(255,255,255,0.12)';
+  context.fillStyle = theme.blockHighlight;
   context.fillRect(x * size + 1, y * size + 1, size - 2, 4);
   context.globalAlpha = 1;
 }
 
 function drawGrid() {
-  ctx.strokeStyle = '#22222e';
+  ctx.strokeStyle = theme.gridLine;
   ctx.lineWidth = 0.5;
   for (let c = 1; c < COLS; c++) {
     ctx.beginPath();
@@ -199,7 +237,7 @@ function draw() {
   for (let r = 0; r < current.shape.length; r++)
     for (let c = 0; c < current.shape[r].length; c++)
       if (current.shape[r][c])
-        drawBlock(ctx, current.x + c, gy + r, current.shape[r][c], BLOCK, 0.2);
+        drawBlock(ctx, current.x + c, gy + r, current.shape[r][c], BLOCK, theme.ghostAlpha);
 
   // current piece
   for (let r = 0; r < current.shape.length; r++)
@@ -301,4 +339,5 @@ document.addEventListener('keydown', e => {
 
 restartBtn.addEventListener('click', init);
 
+initTheme();
 init();
