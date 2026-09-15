@@ -48,11 +48,41 @@
       </aside>
     </div>
 
-    <div id="overlay" class="overlay hidden">
+    <div id="overlay" class="overlay hidden" data-mode="start">
       <div class="overlay-box">
-        <p id="overlay-title">GAME OVER</p>
+        <p id="overlay-title">TETRIS</p>
         <p id="overlay-score"></p>
-        <button id="restart-btn">Reiniciar</button>
+        <div id="overlay-msgs" class="overlay-msgs"></div>
+
+        <form id="name-form" class="name-form" hidden>
+          <label for="name-input" class="label">TU NOMBRE</label>
+          <div class="name-row">
+            <input id="name-input" type="text" maxlength="12" autocomplete="off" spellcheck="false" />
+            <button type="submit" id="save-btn">Guardar</button>
+          </div>
+        </form>
+
+        <section id="records-section" class="records">
+          <span class="label">TOP 5</span>
+          <table class="records-table">
+            <thead>
+              <tr><th>#</th><th>NOMBRE</th><th>PTS</th><th>LÍN</th><th>NIV</th><th>CMB</th></tr>
+            </thead>
+            <tbody id="records-body"></tbody>
+          </table>
+          <div class="records-best">
+            <span>MEJOR COMBO <b id="best-combo">0</b></span>
+            <span>LÍNEAS MÁX <b id="max-lines">0</b></span>
+          </div>
+          <button type="button" id="reset-records-btn" class="link-btn">Resetear records</button>
+          <div id="reset-confirm" class="reset-confirm" hidden>
+            <span>¿Borrar todos los records?</span>
+            <button type="button" id="reset-yes-btn" class="small-btn danger">Sí</button>
+            <button type="button" id="reset-no-btn" class="small-btn">No</button>
+          </div>
+        </section>
+
+        <button type="button" id="restart-btn">Jugar</button>
       </div>
     </div>
   </div>
