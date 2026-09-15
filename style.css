@@ -234,3 +234,124 @@ kbd {
 #restart-btn:hover {
   background: #9bbdff;
 }
+
+#restart-btn:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---- Menú de pausa ---- */
+.pause-box {
+  width: 240px;
+  padding: 24px 20px;
+  background: var(--canvas-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  gap: 10px;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+#pause-title {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 6px;
+  color: #7aa2f7;
+  text-shadow: 0 0 16px rgba(122, 162, 247, 0.5);
+  margin-bottom: 6px;
+}
+
+.menu-btn {
+  width: 100%;
+  background: var(--kbd-bg);
+  color: var(--text);
+  border: 1px solid var(--kbd-border);
+  border-radius: 6px;
+  padding: 9px 16px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.menu-btn:hover,
+.menu-btn:focus-visible {
+  border-color: #7aa2f7;
+  color: #7aa2f7;
+  outline: none;
+}
+
+.menu-btn.primary {
+  background: #7aa2f7;
+  border-color: #7aa2f7;
+  color: #0f0f17;
+}
+
+.menu-btn.primary:hover,
+.menu-btn.primary:focus-visible {
+  background: #9bbdff;
+  color: #0f0f17;
+  box-shadow: 0 0 0 2px var(--text);
+}
+
+.pause-controls {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px dashed var(--kbd-border);
+  border-radius: 6px;
+}
+
+.pause-controls ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pause-controls li {
+  font-size: 12px;
+  color: var(--controls-text);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.level-select {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.level-select select {
+  background: var(--kbd-bg);
+  color: var(--text);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.level-select select:focus-visible {
+  outline: none;
+  border-color: #7aa2f7;
+  color: #7aa2f7;
+}
+
+.menu-hint {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--label);
+}
