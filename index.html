@@ -12,6 +12,12 @@
       <span class="toggle-icon">&#9790;</span>
       <span class="toggle-label">LIGHT</span>
     </button>
+    <select id="skin-select" class="skin-select" aria-label="Skin">
+      <option value="retro">Retro</option>
+      <option value="neon">Neon</option>
+      <option value="pastel">Pastel</option>
+      <option value="pixel">Pixel art</option>
+    </select>
     <h1 class="game-title">TETRIS</h1>
     <div class="game-container">
       <canvas id="board" width="300" height="600"></canvas>
@@ -43,6 +49,7 @@
             <li><kbd>↓</kbd> bajar</li>
             <li><kbd>Space</kbd> caída</li>
             <li><kbd>P</kbd> pausa</li>
+            <li><kbd>Esc</kbd> menú</li>
           </ul>
         </div>
       </aside>
@@ -72,6 +79,38 @@
         </div>
         <div id="gameover-records" class="records hidden"></div>
         <button id="restart-btn">Reiniciar</button>
+      </div>
+    </div>
+
+    <div id="pause-menu" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+      <div class="overlay-box pause-box">
+        <p id="pause-title" class="pause-title">PAUSA</p>
+        <button id="resume-btn" class="pause-btn">Reanudar</button>
+        <button id="pause-restart-btn" class="pause-btn pause-btn-secondary">Reiniciar</button>
+        <button id="controls-btn" class="pause-btn pause-btn-secondary" aria-expanded="false" aria-controls="pause-controls">Ver controles</button>
+        <ul id="pause-controls" class="pause-controls hidden">
+          <li><span><kbd>←</kbd><kbd>→</kbd></span> mover</li>
+          <li><span><kbd>↑</kbd><kbd>X</kbd></span> rotar</li>
+          <li><span><kbd>↓</kbd></span> bajar</li>
+          <li><span><kbd>Espacio</kbd></span> caída</li>
+          <li><span><kbd>P</kbd><kbd>Esc</kbd></span> menú</li>
+        </ul>
+        <label class="pause-level" for="start-level">
+          <span>Nivel inicial</span>
+          <select id="start-level">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </label>
+        <p class="pause-hint">Se aplica en la próxima partida</p>
       </div>
     </div>
   </div>

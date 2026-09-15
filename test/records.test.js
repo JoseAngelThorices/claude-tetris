@@ -96,7 +96,7 @@ const document = {
 };
 
 // Estado inicial del HTML: todo oculto salvo la pantalla de inicio
-for (const id of ['overlay', 'record-message', 'name-form', 'gameover-records'])
+for (const id of ['overlay', 'pause-menu', 'pause-controls', 'record-message', 'name-form', 'gameover-records'])
   document.getElementById(id).classList.add('hidden');
 
 const store = {};
