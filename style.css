@@ -103,10 +103,15 @@ body {
   align-items: flex-start;
 }
 
+/*
+ * Skins vs tema: la skin (game.js → SKINS) controla el canvas. Si define
+ * boardBg/accent, game.js fija --skin-board-bg / --skin-accent en <body>;
+ * si no (Retro), se usan los valores del tema claro/oscuro.
+ */
 #board {
   display: block;
-  border: 1px solid var(--border);
-  background: var(--canvas-bg);
+  border: 1px solid var(--skin-accent, var(--border));
+  background: var(--skin-board-bg, var(--canvas-bg));
   border-radius: 4px;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
   transition: background 0.25s, border-color 0.25s;
@@ -145,10 +150,45 @@ body {
 
 #next-canvas {
   display: block;
-  border: 1px solid var(--border);
-  background: var(--canvas-bg);
+  border: 1px solid var(--skin-accent, var(--border));
+  background: var(--skin-board-bg, var(--canvas-bg));
   border-radius: 4px;
   transition: background 0.25s, border-color 0.25s;
+}
+
+/* ---- Selector de skin ---- */
+.skin-picker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.skin-btn {
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  padding: 5px 4px;
+  font-size: 11px;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--kbd-text);
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.skin-btn:hover {
+  border-color: #7aa2f7;
+  color: #7aa2f7;
+}
+
+.skin-btn:focus-visible {
+  outline: 2px solid #7aa2f7;
+  outline-offset: 1px;
+}
+
+.skin-btn[aria-pressed="true"] {
+  border-color: var(--skin-accent, #7aa2f7);
+  color: var(--skin-accent, #7aa2f7);
+  font-weight: 700;
 }
 
 /* ---- Controles ---- */
