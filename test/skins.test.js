@@ -56,6 +56,8 @@ function createClassList() {
 function createGame(storage) {
   const elements = {};
   const docListeners = {};
+  // Elementos que index.html declara con la clase hidden
+  const STARTS_HIDDEN = ['overlay', 'pause-menu', 'pause-controls'];
   let clock = 0;
   let pendingFrame = null;
   let frameId = 0;
@@ -63,7 +65,7 @@ function createGame(storage) {
   const document = {
     activeElement: null,
     documentElement: { dataset: {} },
-    getElementById: id => (elements[id] ||= createElement(id)),
+    getElementById: id => (elements[id] ||= createElement(id, STARTS_HIDDEN.includes(id))),
     querySelector: sel => createElement(sel),
     querySelectorAll: () => [],
     createElement: tag => createElement(tag),
@@ -71,9 +73,11 @@ function createGame(storage) {
     removeEventListener() {},
   };
 
-  function createElement(id) {
+  function createElement(id, hidden = false) {
     const listeners = {};
     let context = null;
+    const classList = createClassList();
+    if (hidden) classList.add('hidden');
     const el = {
       id,
       value: '',
@@ -85,12 +89,13 @@ function createGame(storage) {
       style: {},
       width: id === 'next-canvas' ? 120 : 300,
       height: id === 'next-canvas' ? 120 : 600,
-      classList: createClassList(),
+      classList,
       listeners,
       getContext: () => (context ||= recordingContext()),
       querySelector: sel => createElement(sel),
       querySelectorAll: () => [],
       appendChild: child => child,
+      contains: node => node === el,
       setAttribute() {},
       removeAttribute() {},
       focus() { document.activeElement = el; },
