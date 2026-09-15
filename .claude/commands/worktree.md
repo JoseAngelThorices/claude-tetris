@@ -67,3 +67,10 @@ git merge <nombre>                      # integrar en la rama actual (tras hacer
 git worktree remove .trees/<nombre>     # eliminar el worktree
 git branch -D <nombre>                  # eliminar la rama
 ```
+
+## Instrucciones para el agente:
+- El prompt del agente debe incluir:
+- Ruta absoluta del worktree
+- El requerimiento completo: $ARGUMENTS
+- Instrucción de trabajar solo dentro de esa ruta
+- Instrucción de NO hacer commits (solo editar archivos)
