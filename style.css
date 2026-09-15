@@ -234,3 +234,65 @@ kbd {
 #restart-btn:hover {
   background: #9bbdff;
 }
+
+/* ---- Skins ---- */
+.skin-select {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--toggle-bg);
+  border: 1px solid var(--toggle-border);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--toggle-text);
+  cursor: pointer;
+  letter-spacing: 1px;
+  outline: none;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.skin-select:hover,
+.skin-select:focus-visible {
+  border-color: #7aa2f7;
+  color: #7aa2f7;
+}
+
+.skin-select option {
+  background: var(--toggle-bg);
+  color: var(--toggle-text);
+}
+
+/* Neon: tablero negro y brillo, también en modo claro */
+body.skin-neon,
+body.light-mode.skin-neon {
+  --canvas-bg: #000;
+  --grid-line: #0d1b2a;
+  --border: #1f51ff;
+}
+
+body.skin-neon #board {
+  box-shadow: 0 0 24px rgba(0, 245, 255, 0.35), 0 0 60px rgba(213, 0, 255, 0.2);
+}
+
+body.skin-neon #next-canvas {
+  box-shadow: 0 0 12px rgba(0, 245, 255, 0.3);
+}
+
+body.skin-neon .game-title {
+  text-shadow: 0 0 6px #00f5ff, 0 0 18px rgba(0, 245, 255, 0.7), 0 0 36px rgba(213, 0, 255, 0.5);
+}
+
+/* Pastel: esquinas suaves */
+body.skin-pastel #board,
+body.skin-pastel #next-canvas {
+  border-radius: 12px;
+}
+
+/* Pixel art: bordes rectos */
+body.skin-pixel #board,
+body.skin-pixel #next-canvas,
+body.skin-pixel .skin-select {
+  border-radius: 0;
+}
