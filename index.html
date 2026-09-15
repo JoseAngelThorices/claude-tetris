@@ -48,10 +48,29 @@
       </aside>
     </div>
 
+    <div id="start-screen" class="overlay">
+      <div class="overlay-box records-box">
+        <p class="records-title">RÉCORDS</p>
+        <div id="start-records" class="records"></div>
+        <button id="play-btn">Jugar</button>
+        <p class="records-hint">o pulsa <kbd>Enter</kbd></p>
+        <button id="reset-records-btn">Borrar récords</button>
+      </div>
+    </div>
+
     <div id="overlay" class="overlay hidden">
       <div class="overlay-box">
         <p id="overlay-title">GAME OVER</p>
         <p id="overlay-score"></p>
+        <p id="record-message" class="record-message hidden"></p>
+        <div id="name-form" class="name-form hidden">
+          <label for="player-name">Tu nombre</label>
+          <div class="name-row">
+            <input id="player-name" type="text" maxlength="12" autocomplete="off" spellcheck="false" placeholder="Anónimo" />
+            <button id="save-name-btn">Guardar</button>
+          </div>
+        </div>
+        <div id="gameover-records" class="records hidden"></div>
         <button id="restart-btn">Reiniciar</button>
       </div>
     </div>
